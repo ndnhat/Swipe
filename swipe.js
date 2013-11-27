@@ -117,7 +117,7 @@ function Swipe(container, options) {
       slide.style.width = width + 'px';
       slide.setAttribute('data-index', pos);
 
-      if (bulletWrapperObj) {
+      if (bulletWrapperObj && slides.length > 1) {
         bulletWrapperObj.innerHTML += '<a class="' + bulletClass + '" href="#">' + bulletInc + '</a>';
         bulletInc++;
       }
@@ -135,7 +135,9 @@ function Swipe(container, options) {
 
     // Need to highlight the bullet assigned to the current slide
     // the setup function is called on window resize so we cant highlight the first bullet but the current index
-    hightlightCurrentBullet(index);
+    if (slides.length > 1) {
+      hightlightCurrentBullet(index);
+    }
   }
 
   function hightlightCurrentBullet(to){
