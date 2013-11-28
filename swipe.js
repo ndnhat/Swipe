@@ -30,7 +30,7 @@ function Swipe(container, options) {
   var element = container.children[0];
   var slides, slidePos, width;
   options = options || {};
-  var bulletWrapper = options.bulletWrapperId || null;
+  var bulletWrapper = options.bulletWrapper || null;
   var bulletClass = options.bulletClass || 'swipe-bullet';
   var activeBulletClass = options.bulletActiveClass || 'active';
   var index = parseInt(options.startSlide, 10) || 0;
@@ -102,11 +102,10 @@ function Swipe(container, options) {
     // stack elements
     var pos = slides.length;
 
-    if (bulletWrapper != null) {
+    if (bulletWrapper !== null) {
 
-      var bulletWrapperObj = document.getElementById(bulletWrapper);
       var bulletInc = 0;
-      bulletWrapperObj.innerHTML = '';
+      bulletWrapper.innerHTML = '';
 
     }
 
@@ -117,8 +116,8 @@ function Swipe(container, options) {
       slide.style.width = width + 'px';
       slide.setAttribute('data-index', pos);
 
-      if (bulletWrapperObj && slides.length > 1) {
-        bulletWrapperObj.innerHTML += '<a class="' + bulletClass + '" href="#">' + bulletInc + '</a>';
+      if (bulletWrapper && slides.length > 1) {
+        bulletWrapper.innerHTML += '<a class="' + bulletClass + '" href="#">' + bulletInc + '</a>';
         bulletInc++;
       }
 
@@ -143,8 +142,7 @@ function Swipe(container, options) {
   function hightlightCurrentBullet(to){
     if (bulletWrapper){
 
-      var bulletWrapperObj = document.getElementById(bulletWrapper);
-      var childObj = bulletWrapperObj.childNodes;
+      var childObj = bulletWrapper.childNodes;
 
       for (var i=0;i<childObj.length;i++) {
         removeClassFromElem(childObj[i], "active");
@@ -487,11 +485,9 @@ function Swipe(container, options) {
     
     }
 
-    if (options.bulletWrapperId) {
+    if (options.bulletWrapper) {
       
-      var bulletWrap = document.getElementById(options.bulletWrapperId);
-      
-      addEventHandler(bulletWrap,"click",function(e){
+      addEventHandler(bulletWrapper,"click",function(e){
           if (getTarget(e).innerHTML) {
             var slideNumber = parseInt(getTarget(e).innerHTML);
             if (!isNaN(slideNumber)) {  
