@@ -31,7 +31,7 @@ function Swipe(container, options) {
   var slides, slidePos, width;
   options = options || {};
   var bulletWrapper = options.bulletWrapper || null;
-  var bulletClass = options.bulletClass || 'swipe-bullet';
+  var bulletColor = options.bulletColor || '';
   var activeBulletClass = options.bulletActiveClass || 'active';
   var index = parseInt(options.startSlide, 10) || 0;
   var speed = options.speed || 300;
@@ -117,7 +117,7 @@ function Swipe(container, options) {
       slide.setAttribute('data-index', pos);
 
       if (bulletWrapper && slides.length > 1) {
-        bulletWrapper.innerHTML += '<a class="' + bulletClass + '" href="#">' + bulletInc + '</a>';
+        bulletWrapper.innerHTML += '<li style="color:' + bulletColor + '" data-index="' + bulletInc + '"></li>';
         bulletInc++;
       }
 
@@ -145,9 +145,9 @@ function Swipe(container, options) {
       var childObj = bulletWrapper.childNodes;
 
       for (var i=0;i<childObj.length;i++) {
-        removeClassFromElem(childObj[i], "active");
+        removeClassFromElem(childObj[i], "is-active");
       }
-        addClassToElem(childObj[to], "active");
+        addClassToElem(childObj[to], "is-active");
     }
   }
 
@@ -488,13 +488,13 @@ function Swipe(container, options) {
     if (options.bulletWrapper) {
       
       addEventHandler(bulletWrapper,"click",function(e){
-          if (getTarget(e).innerHTML) {
-            var slideNumber = parseInt(getTarget(e).innerHTML);
-            if (!isNaN(slideNumber)) {  
+          if (getTarget(e).getAttribute('data-index')) {
+            var slideNumber = parseInt(getTarget(e).getAttribute('data-index'));
+            if (!isNaN(slideNumber)) {
               offloadFn(stop.call());
               offloadFn(slide(slideNumber));
             }
-          }    
+          }
       });
     
     }
