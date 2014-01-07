@@ -456,50 +456,47 @@ function Swipe(container, options) {
   // start auto slideshow if applicable
   if (delay) begin();
 
+  // We need to add the listeners on the prev and next buttons if the specific DOM ids were sent when the Swipe object was instantiated
+  // We keep them separated because a user might want to add only one button (either next or prev)
+  if (options.btnNextId) {
+    
+    var nextButton = document.getElementById(options.btnNextId);
+    
+    addEventHandler(nextButton,"click",function(e){
+      offloadFn(stop.call());
+      offloadFn(next.call());
+    });
+  
+  }
 
+  if (options.btnPrevId) {
+    
+    var prevButton = document.getElementById(options.btnPrevId);
+    
+    addEventHandler(prevButton,"click",function(e){
+      offloadFn(stop.call());
+      offloadFn(prev.call());
+    });
+  
+  }
+
+  if (options.bulletWrapper) {
+    addEventHandler(bulletWrapper,"click",function(e){
+        if (getTarget(e).getAttribute('data-index')) {
+          var slideNumber = parseInt(getTarget(e).getAttribute('data-index'));
+          if (!isNaN(slideNumber)) {
+            offloadFn(stop.call());
+            offloadFn(slide(slideNumber));
+          }
+        }
+    });
+  
+  }
+
+    
   // add event listeners
   if (browser.addEventListener) {
-    
 
-    // We need to add the listeners on the prev and next buttons if the specific DOM ids were sent when the Swipe object was instantiated
-    // We keep them separated because a user might want to add only one button (either next or prev)
-    if (options.btnNextId) {
-      
-      var nextButton = document.getElementById(options.btnNextId);
-      
-      addEventHandler(nextButton,"click",function(e){
-        offloadFn(stop.call());
-        offloadFn(next.call());
-      });
-    
-    }
-
-    if (options.btnPrevId) {
-      
-      var prevButton = document.getElementById(options.btnPrevId);
-      
-      addEventHandler(prevButton,"click",function(e){
-        offloadFn(stop.call());
-        offloadFn(prev.call());
-      });
-    
-    }
-
-    if (options.bulletWrapper) {
-      
-      addEventHandler(bulletWrapper,"click",function(e){
-          if (getTarget(e).getAttribute('data-index')) {
-            var slideNumber = parseInt(getTarget(e).getAttribute('data-index'));
-            if (!isNaN(slideNumber)) {
-              offloadFn(stop.call());
-              offloadFn(slide(slideNumber));
-            }
-          }
-      });
-    
-    }
-
-    
     // set touchstart event on element    
     if (browser.touch) element.addEventListener('touchstart', events, false);
 
